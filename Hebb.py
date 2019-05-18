@@ -23,19 +23,21 @@
 import numpy as np
 
 def Hebb(list_in):
-	list_weight = np.array([[+0.5, -0.5]\
+	list_weight = np.array([[+0.5, -0.5],\
 							[-0.5, +0.5]])
-	#return np.multiply(list_in, list_weight)
-	result =  np.dot(list_in, list_weight)
-	return classfication(result)
+	list_result = list_in.reshape((2,1)) * list_weight
+	list_result = list_result.sum(axis=0)
+	return classfication(list_result)
 
-def classfication(value):
-	if(value >= 0):
+def classfication(list_value):
+# list_value = [ out_1, out_2 ]
+	if(list_value[0] >= 0 and list_value[1] < 0):
 		return 'apple'
-	elif(value < 0):
+	elif(list_value[0] < 0 and list_value[1] >= 0):
 		return 'banana'
 
 list_in = np.array([+1, -1])
+print('Input: %s' % list_in)
 out = Hebb(list_in)
 print('Output for list_in = %s: %s' % (list_in, out))
 
